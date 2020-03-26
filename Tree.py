@@ -9,13 +9,14 @@ Created on Thu Mar 26 14:27:59 2020
 from math import log
 
 def createDataset():
-    dataSet = [[1, 1, 'yes'],
-               [1, 1, 'yes'],
-               [1, 0, 'no'],
-               [0, 1, 'no'],
-               [0, 1, 'no']]
+    dataSet = [[1, 1,2, 'yes'],
+               [1, 1,3, 'yes'],
+               [1, 0,2, 'no'],
+               [0, 1,3, 'no'],
+               [0, 1,2, 'no']]
     labels = ['no surfacing','flippers']
     return dataSet,labels
+''' Calculating the Entropy'''
 def calcEntropy(dataset):
     num = len(dataset)
     labels = {}
@@ -30,8 +31,19 @@ def calcEntropy(dataset):
         entropy = entropy - probability * log(probability,2)
     return entropy
 
+'''Spliting dataset on base of feature'''
+def splitdataset(dataset,axis,value):
+    retDataset = []
+    for vector in dataset:
+        if vector[axis] == value:
+            reducedV = vector[:axis]
+            reducedV.extend(vector[axis+1:])
+            retDataset.append(reducedV)
+    return retDataset
 dataset, labels = createDataset()
 print(dataset)
-print(calcEntropy(dataset))
+#print(calcEntropy(dataset))
+redData = splitdataset(dataset,1,1)
+print(redData)
 
     
