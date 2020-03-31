@@ -40,10 +40,34 @@ def splitdataset(dataset,axis,value):
             reducedV.extend(vector[axis+1:])
             retDataset.append(reducedV)
     return retDataset
+def chooseBestFeature(dataset):
+    num = len(dataset[0]) - 1
+    baseEntropy= calcEntropy(dataset)
+    bestInfoGain = 0.0
+    bestFeature = -1
+    for i in range(num):
+        featList = [example[i] for example in dataset]
+        uniqueVal = set(featList)
+        newEntropy = 0.0
+        '''splitting data on each feature and then calculating entropy 
+        for that feature then it is subtracted by baseEntropy (information Gain)
+        '''
+        for value in uniqueVal:
+            subDataset = splitdataset(dataset,i,value)
+            prob = len(subDataset)/float(len(dataset))
+            newEntropy = prob * calcEntropy(subDataset)
+        infoGain = baseEntropy - newEntropy
+        if(infoGain > bestInfoGain):
+            bestInfoGain = infoGain
+            bestFeature = i
+    return bestFeature
+
 dataset, labels = createDataset()
-print(dataset)
+#print(dataset)
 #print(calcEntropy(dataset))
-redData = splitdataset(dataset,1,1)
-print(redData)
+#redData = splitdataset(dataset,1,1)
+#print(redData)
+#print(dataset)
+print(chooseBestFeature(dataset))
 
     
